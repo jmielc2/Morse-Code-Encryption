@@ -13,25 +13,55 @@ the program will print a score and return to the main menu.
 
 def game_program():
     import random
+    from eng_to_morse_dict import english_morse_dict as dictionary
+    from MorseCodeConverter import convert_program
+    options = ['1', '2']
+
     #Obtain Game Options
     def game_options():
-        print("CHOOSE A LANGUAGE:\n")
+        option1 = True
+        option2 = True
+        #Chooses a language to convert to
+        print("\n----------------------------------------------------------------------")
+        print("\nCHOOSE A LANGUAGE:\n")
         print("  - Enter (1) for Morse Code to English")
         print("  - Enter (2) for English to Morse Code")
-        language = input("\nSelect One: ")
+        language = input("\nPlease Select An Option: ")
+        while option1:
+            if language not in options:
+                print("Invalid Entry, Please Enter a Valid Option:")
+            else:
+                option1 = False
+        #Chooses whether it will be testing letters or words
         print("\nCHOOSE A MODE:\n")
         print("  - Enter (1) for Letters")
         print("  - Enter (2) for Words")
         mode = input("\nSelect One: ")
+        while option2:
+            if mode not in options:
+                print("Invalid Entry, Please Enter a Valid Option:")
+            else:
+                option2 = False
+        return (language, mode)
 
-    def choose_phrase():
-        all_phrases = open("Phrases.txt", 'r')
-        phrases_list = all_phrases.readlines()
-        all_phrases.close()
-
+    #Choose A Phrase
+    def choose_Phrase(language, mode):
+        if language == '1':
+            if mode == '1':
+                #FIXME: Create a list of Morse Code letters to be used for 
+                #the game
+                pass
+            else:
+                all_phrases = open("Phrases.txt", 'r')
+                phrases_list = all_phrases.readlines()
+                all_phrases.close()
         rand_num = random.randint(0, len(phrases_list))
         chosen_phrase = phrases_list[rand_num]
         return chosen_phrase
+    
+    print("\n----------------------------------------------------------------------")
+    print("\nGAME PROGRAM RUNS THEN QUITS HERE")
+    print("\nReturning to MAIN MENU...")
+    print("\n----------------------------------------------------------------------")
 
-    def game(phrases):
-        pass
+#game_program
