@@ -55,7 +55,6 @@ def morse_to_english(code, eng_morse):
 #This is the main convert_program
 def convert_program():
     #Variables
-    rep = 0
     options = ['1', '2', '3']
 
     #Introduction
@@ -72,29 +71,30 @@ def convert_program():
         option = input("Invalid Entry, Please Enter a Valid Option: ")
 
     if option == '1':
-        print("\nEnter English Text (no symbols: . ; , - etc.):")
+        print("\nEnter English Text (no symbols: ; . , - etc.):")
         phrase = input().lower().strip()
         result = english_to_morse(phrase, eng_morse)
         if isinstance(result, str) != True:
+            time.sleep(2)
             print("\n'{}' is a character in your string that cannont be converted to Morse Code.".format(result[0]))
         else:
-            if rep < 1:
-                print("\nRESULT FORMATTING:")
-                print("  - '.' = DOT")
-                print("  - '-' = DASH")
-                print("  - ' ' = Separates Letters")
-                print("  - '/' = Separate Words")
-                rep = 1
+            print('\n----------------------------------------------------------------------')
+            print("\nTRANSLATION FORMATTING:")
+            print("  - '.' = DOT")
+            print("  - '-' = DASH")
+            print("  - ' ' = Separates Letters")
+            print("  - '/' = Separates Words")
+            time.sleep(2)
             print("\nTRANSLATION:", result)
+            time.sleep(3)
         result = ''
-        option = input("Please select what you'd like to do next from the OPTIONS MENU: ")
 
     if option == '2':
         print("\nINPUT FORMAT:")
         print("  - '.' = DOT")
         print("  - '-' = DASH")
         print("  - ' ' = Separates Letters")
-        print("  - '/' and '\\' = Separate Words")
+        print("  - '/' = Separate Words")
         print("Enter Morse Code:")
         code = input()
         result = morse_to_english(code, eng_morse)

@@ -25,23 +25,23 @@ def game_options():
     option2 = True
     #Chooses a language to convert to
     print("\n----------------------------------------------------------------------")
-    print("\nCHOOSE A LANGUAGE:\n")
+    print("\nCHOOSE A LANGUAGE:")
     print("  - Enter (1) to test your Morse Code to English conversion skills")
     print("  - Enter (2) to test your English to Morse Code conversion skills")
     language = input("Please Select An Option: ")
     while option1:
         if language not in options:
-            print("Invalid Entry, Please Enter a Valid Option:")
+            language = input("Invalid Entry, Please Enter a Valid Option: ")
         else:
             option1 = False
     #Chooses whether it will be testing letters or words
-    print("\nCHOOSE A MODE:\n")
+    print("\nCHOOSE A MODE:")
     print("  - Enter (1) to convert Letters")
     print("  - Enter (2) to convert Words")
     mode = input("Please Select An Option: ")
     while option2:
         if mode not in options:
-            print("Invalid Entry, Please Enter a Valid Option:")
+            mode = input("Invalid Entry, Please Enter a Valid Option: ")
         else:
             option2 = False
     return (language, mode)
@@ -68,9 +68,20 @@ def choose_Phrase(language, mode):
             return (morse_phrase, new_phrase)
     else: #If user is converting from English to Morse Code
         if mode == '1': #If user is converting just singular letters
-            pass #TODO: Finish the code where you convert English to Morse Code for letters
+            letters = dictionary.keys()
+            rand_num = random.randint(0, len(letters) - 1)
+            chosen_letter = list(letters)[rand_num]
+            morse_letter = dictionary[chosen_letter]
+            return (chosen_letter, morse_letter)
         else: #If user is converting phrases and words
-            pass #TODO: Finish the code where you convert English to Morse Code for phrases
+            all_phrases = open("Phrases.txt", 'r')
+            phrases_list = all_phrases.readlines()
+            all_phrases.close()
+            rand_num = random.randint(0, len(phrases_list) - 1)
+            chosen_phrase = phrases_list[rand_num]
+            new_phrase = chosen_phrase[:-1] #Removes the \n character
+            morse_phrase = english_to_morse(new_phrase.lower(), dictionary)
+            return (new_phrase, morse_phrase)
 
 
 def game_program():
@@ -81,14 +92,26 @@ def game_program():
     tested_list = [' ']
     score = 0
     rep = 1
-    time.sleep(3)
+    print('\nANSWER FORMATTING:')
+    if selections[0] == '1':
+        print("  - '.' = DOT")
+        print("  - '-' = DASH")
+        print("  - ' ' = Separates Letters")
+        print("  - '/' = Separates Words")
+    else:
+        print("  - No symbols (i.e. ; . , - etc.)")
+    time.sleep(2)
     while rep <= 10:
         phrases = choose_Phrase(selections[0], selections[1])
         while phrases[1] in tested_list:
             phrases = choose_Phrase(selections[0], selections[1])
         print('\n----------------------------------------------------------------------')
         print("\n #{} - TRANSLATE:".format(rep), phrases[0])
-        user_answer = input("YOUR TRANSLATION: ")
+        user_answer = input("YOUR ANSWER: ")
+        if ' / ' in user_answer:
+            user_answer = user_answer
+        else:
+            user_answer.replace('/', ' / ')
         if user_answer.lower().strip() != phrases[1].lower():
             print("\nIncorrect, the correct translation was '{}'".format(phrases[1]))
             time.sleep(2)
@@ -99,17 +122,17 @@ def game_program():
             time.sleep(2)
         rep += 1
     print('\n----------------------------------------------------------------------')
-    print("\nLet's see how you did...")
+    print("\n\nLet's see how you did...")
     time.sleep(2)
     final_score = score / 10
     print('\nFinal Score: {}%'.format(int(final_score * 100)))
     time.sleep(1)
-    if final_score <= 0.5:
+    if final_score <= 0.6:
         print("\nKeep at it! you'll get it someday!")
     elif final_score <= 0.9:
         print("\nNice Job! You almost got a prefect score!")
     else:
         print("\nPerfect Score! Great Job!")
-    time.sleep(1)
+    time.sleep(2)
     print('\n\nReturning to MAIN MENU...')
     print ('\n----------------------------------------------------------------------')
