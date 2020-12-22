@@ -8,14 +8,40 @@ Convert from English to Morse Code, (2) Convert Morse Code into English,
 and (3) return to the main menu (the Main Program).
 '''
 #Import statements
-import time
+import time, re
 from eng_to_morse_dict import english_morse_dict as eng_morse
+
+#Removes extra spaces and other characters
+def remove_spaces1(phrase):
+    '''This function removes unwanted phrases and characters from the given
+    text'''
+    regexSpaces = re.compile(r'\W+|_')
+    matches = regexSpaces.findall(phrase)
+    for match in matches:
+        if match != "'":
+            phrase = phrase.replace(match, ' ')
+        else:
+            phrase = phrase.replace(match, '')
+    return phrase
+
+def remove_spaces2(code):
+    '''This function will remove extra spaces and unknown characters from a
+    given morse code string'''
+    rep = 1
+    while rep <= 2:
+        regexCode = re.compile(r'\s{2,}|[^-./ ]')
+        matches = regexCode.findall(code)
+        for match in matches:
+            code = code.replace(match, ' ')
+        rep += 1
+    return code
 
 #Converts English to Morse Code
 def english_to_morse(phrase, eng_morse):
-    '''This function converts english into morse code'''
+    '''This function converts english into morse code'''     
     result_list = []
-    for letter in phrase:
+    phrase = remove_spaces1(phrase) #removes unwanted characters and extra spaces
+    for letter in phrase.strip():
         bit = eng_morse.get(letter, None)
         if bit == None:
             return (letter, None)
@@ -28,6 +54,7 @@ def english_to_morse(phrase, eng_morse):
 def morse_to_english(code, eng_morse):
     '''This function converts morse code into english'''
     result_list = []
+    code = remove_spaces2(code) #Removes extra spaces and unwanted characters
     code_list = code.split('/')
     code_list_copy = code_list[:]
     morse_code_letters = eng_morse.values()
@@ -71,22 +98,24 @@ def convert_program():
         option = input("Invalid Entry, Please Enter a Valid Option: ")
 
     if option == '1':
-        print("\nEnter English Text (no symbols: ; . , - etc.):")
+        print("\nEnter English Text:")
         phrase = input().lower().strip()
         result = english_to_morse(phrase, eng_morse)
-        if isinstance(result, str) != True:
-            time.sleep(2)
+        while isinstance(result, str) != True:
+            time.sleep(1)
             print("\n'{}' is a character in your string that cannont be converted to Morse Code.".format(result[0]))
-        else:
-            print('\n----------------------------------------------------------------------')
-            print("\nTRANSLATION FORMATTING:")
-            print("  - '.' = DOT")
-            print("  - '-' = DASH")
-            print("  - ' ' = Separates Letters")
-            print("  - '/' = Separates Words")
-            time.sleep(2)
-            print("\nTRANSLATION:", result)
-            time.sleep(3)
+            print("Please Re-enter your phrase:")
+            phrase = input().lower().strip()
+            result = english_to_morse(phrase, eng_morse)
+        print('\n----------------------------------------------------------------------')
+        print("\nTRANSLATION FORMATTING:")
+        print("  - '.' = DOT")
+        print("  - '-' = DASH")
+        print("  - ' ' = Separates Letters")
+        print("  - '/' = Separates Words")
+        time.sleep(2)
+        print("\nTRANSLATION:", result)
+        time.sleep(3)
         result = ''
 
     if option == '2':
@@ -96,14 +125,15 @@ def convert_program():
         print("  - ' ' = Separates Letters")
         print("  - '/' = Separate Words")
         print("Enter Morse Code:")
-        code = input()
+        code = input().strip()
         result = morse_to_english(code, eng_morse)
-        if isinstance(result, str) != True:
+        while isinstance(result, str) != True:
             print("\n'{}' is not a Morse Code character.".format(result[0]))
-            time.sleep(3)
-        else:
-            print("\nTRANSLATION:", result.capitalize())
-            time.sleep(3)
+            print("Please Re-enter your phrase:")
+            code = input().lower().strip()
+            result = morse_to_english(code, eng_morse)
+        print("\nTRANSLATION:", result.capitalize())
+        time.sleep(3)
         result = ''
 
     print("\n\nReturning to MAIN MENU...")

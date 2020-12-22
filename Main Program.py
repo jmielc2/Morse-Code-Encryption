@@ -29,7 +29,7 @@ options = ['1', '2', '3']
 request = 0
 def request_func():
     print("\nMAIN MENU:")
-    print("  - Enter (1) to play the Learn Morse Code Game")
+    print("  - Enter (1) to Play the Learn Morse Code Game")
     print("  - Enter (2) to Translate")
     print("  - Enter (3) to Quit")
     request = input("What Would You Like To Do?: ")

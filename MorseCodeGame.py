@@ -98,8 +98,6 @@ def game_program():
         print("  - '-' = DASH")
         print("  - ' ' = Separates Letters")
         print("  - '/' = Separates Words")
-    else:
-        print("  - No symbols (i.e. ; . , - etc.)")
     time.sleep(2)
     while rep <= 10:
         phrases = choose_Phrase(selections[0], selections[1])
@@ -108,10 +106,10 @@ def game_program():
         print('\n----------------------------------------------------------------------')
         print("\n #{} - TRANSLATE:".format(rep), phrases[0])
         user_answer = input("YOUR ANSWER: ")
-        if ' / ' in user_answer:
-            user_answer = user_answer
-        else:
-            user_answer.replace('/', ' / ')
+        if '/' in user_answer:
+            user_answer = user_answer.split('/')
+            for pos, word in enumerate(user_answer):
+                user_answer[pos] = word.strip()
         if user_answer.lower().strip() != phrases[1].lower():
             print("\nIncorrect, the correct translation was '{}'".format(phrases[1]))
             time.sleep(2)
