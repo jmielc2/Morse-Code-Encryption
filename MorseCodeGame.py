@@ -53,32 +53,28 @@ def choose_Phrase(language, mode):
     if language == '1': #If user is converting from Morse Code to English
         if mode == '1': #If user is converting just singular letters
             letters = dictionary.keys()
-            rand_num = random.randint(0, len(letters) - 1)
-            chosen_letter = list(letters)[rand_num]
+            chosen_letter = random.choice(list(letters))
             morse_letter = dictionary[chosen_letter]
             return (morse_letter, chosen_letter)
         else: #If user is converting phrases and words
             all_phrases = open("Phrases.txt", 'r')
             phrases_list = all_phrases.readlines()
             all_phrases.close()
-            rand_num = random.randint(0, len(phrases_list) - 1)
-            chosen_phrase = phrases_list[rand_num]
+            chosen_phrase = random.choice(phrases_list)
             new_phrase = chosen_phrase[:-1]  #Removes the \n character
             morse_phrase = english_to_morse(new_phrase.lower(), dictionary)
             return (morse_phrase, new_phrase)
     else: #If user is converting from English to Morse Code
         if mode == '1': #If user is converting just singular letters
             letters = dictionary.keys()
-            rand_num = random.randint(0, len(letters) - 1)
-            chosen_letter = list(letters)[rand_num]
+            chosen_letter = random.choice(list(letters))
             morse_letter = dictionary[chosen_letter]
             return (chosen_letter, morse_letter)
         else: #If user is converting phrases and words
             all_phrases = open("Phrases.txt", 'r')
             phrases_list = all_phrases.readlines()
             all_phrases.close()
-            rand_num = random.randint(0, len(phrases_list) - 1)
-            chosen_phrase = phrases_list[rand_num]
+            chosen_phrase = random.choice(phrases_list)
             new_phrase = chosen_phrase[:-1] #Removes the \n character
             morse_phrase = english_to_morse(new_phrase.lower(), dictionary)
             return (new_phrase, morse_phrase)
@@ -92,8 +88,8 @@ def game_program():
     tested_list = [' ']
     score = 0
     rep = 1
-    print('\nANSWER FORMATTING:')
-    if selections[0] == '1':
+    if selections[0] == '2':
+        print('\nANSWER FORMATTING:')
         print("  - '.' = DOT")
         print("  - '-' = DASH")
         print("  - ' ' = Separates Letters")
@@ -106,10 +102,6 @@ def game_program():
         print('\n----------------------------------------------------------------------')
         print("\n #{} - TRANSLATE:".format(rep), phrases[0])
         user_answer = input("YOUR ANSWER: ")
-        if '/' in user_answer:
-            user_answer = user_answer.split('/')
-            for pos, word in enumerate(user_answer):
-                user_answer[pos] = word.strip()
         if user_answer.lower().strip() != phrases[1].lower():
             print("\nIncorrect, the correct translation was '{}'".format(phrases[1]))
             time.sleep(2)
